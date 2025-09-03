@@ -1,0 +1,119 @@
+// Smooth scrolling for navigation links
+document.querySelectorAll('nav a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        window.scrollTo({
+            top: targetElement.offsetTop - 100,
+            behavior: 'smooth'
+        });
+    });
+});
+
+// Form submission handling
+const contactForm = document.querySelector('.contact-form form');
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Simple form validation
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const messageInput = document.getElementById('message');
+        
+        if (!nameInput.value || !emailInput.value || !messageInput.value) {
+            alert('Please fill in all fields');
+            return;
+        }
+        
+        // Simulate form submission
+        alert('Thank you for your message! I will get back to you soon.');
+        contactForm.reset();
+    });
+}
+
+// Add animation to portfolio items on scroll
+const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+function checkScroll() {
+    portfolioItems.forEach(item => {
+        const position = item.getBoundingClientRect();
+        
+        // If item is in viewport
+        if (position.top < window.innerHeight - 100) {
+            item.style.opacity = 1;
+            item.style.transform = 'translateY(0)';
+        }
+    });
+}
+
+// Initialize portfolio items as hidden
+portfolioItems.forEach(item => {
+    item.style.opacity = 0;
+    item.style.transform = 'translateY(50px)';
+    item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+});
+
+// Check scroll on load and scroll
+window.addEventListener('load', checkScroll);
+window.addEventListener('scroll', checkScroll);
+
+// Add floating flowers animation
+function createFloatingFlowers() {
+    const floralBg = document.querySelector('.floral-bg');
+    
+    for (let i = 0; i < 15; i++) {
+        const flower = document.createElement('div');
+        flower.classList.add('floating-flower');
+        flower.innerHTML = '🌸';
+        
+        // Random position and size
+        const size = Math.random() * 30 + 20;
+        flower.style.fontSize = `${size}px`;
+        flower.style.left = `${Math.random() * 100}vw`;
+        flower.style.top = `${Math.random() * 100}vh`;
+        
+        // Random animation
+        const duration = Math.random() * 10 + 10;
+        flower.style.animation = `float ${duration}s infinite ease-in-out`;
+        flower.style.animationDelay = `${Math.random() * 5}s`;
+        
+        floralBg.appendChild(flower);
+    }
+}
+
+// Add CSS for floating flowers
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes float {
+        0% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+        25% {
+            transform: translate(10px, -15px) rotate(5deg);
+        }
+        50% {
+            transform: translate(-5px, -25px) rotate(-5deg);
+        }
+        75% {
+            transform: translate(15px, -15px) rotate(5deg);
+        }
+        100% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+    }
+    
+    .floating-flower {
+        position: absolute;
+        pointer-events: none;
+        z-index: -1;
+        opacity: 0.7;
+    }
+`;
+document.head.appendChild(style);
+
+// Create floating flowers when page loads
+window.addEventListener('load', createFloatingFlowers);
